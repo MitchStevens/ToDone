@@ -1,0 +1,31 @@
+#slider{
+	-fx-background-color: #cccccc;
+}
+
+#upper_piece{
+	-fx-fill: linear-gradient(#d96459, #f2e394);
+}
+
+#lower_piece{
+	-fx-fill: linear-gradient(#f2e394, #588C7E);
+}
+
+#marker{
+	-fx-font-size: 15;
+	-fx-font-family:  Comic Sans;
+}
+
+#piece{
+	-fx-stroke: black;
+	-fx-stroke-width: 2;
+}
+
+#label_text{
+	-fx-font-size: 15;
+	-fx-font-family:  Comic Sans;
+}
+
+#label_background{
+	-fx-stroke: black;
+	-fx-stroke-width: 2;
+}
