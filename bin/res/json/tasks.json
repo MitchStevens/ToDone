@@ -3,17 +3,14 @@
 		{
 			"id":0,
 			"name":"walk the dog",
-			"created":1464418969767
 			"due":null	
 		},{
 			"id":1,
 			"name":"perform heart surgery",
-			"created":1464418969767
 			"due":null	
 		},{
 			"id":2,
 			"name":"walk the dog",
-			"created":1464418969767
 			"due":null	
 		}	
 	]

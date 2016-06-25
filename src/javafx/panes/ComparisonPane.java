@@ -1,8 +1,16 @@
 package javafx.panes;
 
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
 import datatypes.Direction;
-import javafx.controls.Slider;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.controls.LogSlider;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -11,13 +19,18 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import logic.Task;
+import logic.UrgencyMatrix;
 
 public class ComparisonPane extends BorderPane {
-	private final static double DEF_HEIGHT = 400;
-	private final static double DEF_WIDTH  = 400;
+	private final static double DEF_HEIGHT = 600;
+	private final static double DEF_WIDTH  = 450;
 	
-	private Slider slider_left, slider_right;
+	/** Set to true whenever a comparison in finished */
+	public final BooleanProperty finished_comparison = new SimpleBooleanProperty();
+	
+	private LogSlider slider_left, slider_right;
 	private boolean ignore_left, ignore_right;
+	Button next_comp;
 	private Text message;
 	
 	private Task task_left, task_right;
@@ -26,6 +39,7 @@ public class ComparisonPane extends BorderPane {
 		this.getStylesheets().add("res/css/comparison_pane.css");
 		this.setHeight(DEF_HEIGHT);
 		this.setWidth(DEF_WIDTH);
+		this.setId("main");
 		
 		init();
 		set_events();
@@ -40,19 +54,21 @@ public class ComparisonPane extends BorderPane {
 		left.setAlignment(Pos.CENTER);
 		this.setLeft(left);
 		
-		slider_left = new Slider(Direction.RIGHT, 400);
+		slider_left = new LogSlider(Direction.RIGHT, 400);
 		GridPane.setHalignment(slider_left, HPos.LEFT);
 		left.getChildren().add(slider_left);	
 		
-		Button next = new Button("string");
-		next.setAlignment(Pos.CENTER_LEFT);
-		this.setCenter(next);
+		next_comp = new Button("next\ncomparison");
+		next_comp.setAlignment(Pos.CENTER);
+		next_comp.setPrefSize(100, 100);
+		
+		this.setCenter(next_comp);
 		
 		VBox right = new VBox();
 		right.setAlignment(Pos.CENTER);
 		this.setRight(right);
 		
-		slider_right = new Slider(Direction.LEFT, 400);
+		slider_right = new LogSlider(Direction.LEFT, 400);
 		GridPane.setHalignment(slider_right, HPos.RIGHT);
 		right.getChildren().add(slider_right);
 		
@@ -84,6 +100,13 @@ public class ComparisonPane extends BorderPane {
 				rewrite_message();
 			}
 		});
+		
+		next_comp.setOnMouseClicked(e -> {
+//			um.set(task_left, task_right, slider_left.get_value());
+//			
+//			if(task_ids.size() >= 2)
+//				new_comparison(tasks.poll(), tasks.poll());
+		});
 	}
 	
 	public void new_comparison(Task task1, Task task2){
@@ -104,10 +127,10 @@ public class ComparisonPane extends BorderPane {
 		double val = slider_left.get_value();
 		String str;
 		if(val > 1)
-			str = task_left.get_name() +" is "+ Slider.df.format(val) + 
+			str = task_left.get_name() +" is "+ LogSlider.df.format(val) + 
 					" times more important than "+ task_right.get_name();
 		else if(val < 1)
-			str = task_right.get_name() +" is "+ Slider.df.format(1/val) + 
+			str = task_right.get_name() +" is "+ LogSlider.df.format(1/val) + 
 				" times more important than "+ task_left.get_name();
 		else
 			str = task_left.get_name() +" is as important as "+ task_right.get_name();

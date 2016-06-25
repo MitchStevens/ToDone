@@ -1,7 +1,6 @@
 package javafx.controls;
 
 import static java.lang.Math.*;
-import io.Reader;
 
 import java.text.DecimalFormat;
 
@@ -14,7 +13,6 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -22,7 +20,15 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-public class Slider extends Pane{
+/**
+ * Creates a logarithmic slider to get input from the user in the range
+ * {@code [1/max ..  max]} where {@code max} is specified as a constant.
+ * The slider contains a subtitle that can be changed after
+ * instantiation.
+ * 
+ * @author Mitch
+ * */
+public class LogSlider extends Pane{
 	private double height;
 	
 	final public  static double SLIDER_WIDTH = 20;
@@ -54,7 +60,7 @@ public class Slider extends Pane{
 	private Text[] labels;
 	private Text subtitle;
 
-	public Slider(Direction d, double height){		
+	public LogSlider(Direction d, double height){		
 		this.direction = d;
 		this.height = height;
 		this.setId("slider");
@@ -81,6 +87,7 @@ public class Slider extends Pane{
 		parent.getChildren().add(lower_piece);
 		
 		subtitle = new Text("untitled");
+		subtitle.setId("subtitle");
 		parent.getChildren().add(subtitle);
 		subtitle.applyCss();
 		double text_width = subtitle.getBoundsInParent().getWidth();
@@ -142,7 +149,7 @@ public class Slider extends Pane{
 	}
 	
 	/**
-	 * @
+	 * Repaints the color of the slider piece and the label piece.
 	 * */
 	private void repaint_piece(){
 		double fx = curr_value.get();
@@ -212,7 +219,8 @@ public class Slider extends Pane{
 	}
 	
 	/**
-	 * 
+	 * Display the dashes and the text labels on the side of the slider.
+	 * There is no current way to disable the labels.
 	 * */
 	public void display_labels(){
 		double x = 0, y = 0;
@@ -264,7 +272,8 @@ public class Slider extends Pane{
 		slider_group.toFront();
 	}
 	
-	/** Setting height and width of slider. These dimensions have to 
+	/**
+	 * Setting height and width of slider. These dimensions have to 
 	 * be set at some point and to calculate the dimensions
 	 * Accurately, we need the dimensions of the label.
 	 * */
@@ -278,13 +287,14 @@ public class Slider extends Pane{
 		this.setPrefHeight(height + max_height*0.5 + sub_bounds.getHeight());
 		this.setPrefWidth(SLIDER_WIDTH + LABEL_GAP + max_width);
 		
-		this.x_off = direction == Direction.LEFT ? (LABEL_GAP + max_width) : ((sub_bounds.getWidth() - SLIDER_WIDTH)*0.5);
+		this.x_off = max((sub_bounds.getWidth() - SLIDER_WIDTH)*0.5, max_width + LABEL_GAP);
 		this.y_off = max_height*0.5;
 		this.parent.setLayoutX(x_off);
 		this.parent.setLayoutY(y_off);
 		
 		double pref_h = height + sub_bounds.getHeight() + max_height*0.5;
-		double pref_w = SLIDER_WIDTH + (sub_bounds.getWidth() - SLIDER_WIDTH)*0.5 +max_width + LABEL_GAP;
+		double pref_w = SLIDER_WIDTH;
+		pref_w += 2*max((sub_bounds.getWidth() - SLIDER_WIDTH)*0.5, max_width + LABEL_GAP);
 		
 		this.setPrefSize(pref_w, pref_h);
 	}

@@ -1,6 +1,10 @@
 package logic;
 
+import io.Reader;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -12,30 +16,34 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 
 public class UrgencyMatrix {
-	String name;
+	private String name;
 	
 	//size of matrix
-	int n;
+	private int n;
 	
 	// Urgency Matrix
-	Matrix U;
+	private Matrix U;
 	
-	// list of tasks by id
-	Long[] tasks;
+	private List<Integer> task_ids;
 	
-	public UrgencyMatrix(int n, Long[] tasks){
+	public UrgencyMatrix(int n){
 		this.n = n;
 		this.U = new Matrix(n, n, 1.0);
-		this.tasks = tasks;
 	}
 	
-	public UrgencyMatrix(String name, int n, double[][] U, Long[] tasks){
+	public UrgencyMatrix(String name, int n, double[][] U){
 		this.name = name;
 		this.n = n;
 		this.U = new Matrix(U);
-		this.tasks = tasks;
 	}
 	
+	/**
+	 * Sets {code U[a][b] = val} in the matrix. Since {@code U[i][j] = 1/U[j][i]},
+	 * this method also sets the corresponding location to 1/val.
+	 * @param i Column index
+	 * @param j Row index
+	 * @param val the value to be set.
+	 * */
 	public void set(int i, int j, double val){
 		if(i>=0 && i<n &&
 		   j>=0 && j<n && val > 0){
@@ -44,7 +52,16 @@ public class UrgencyMatrix {
 		}
 	}
 	
-	public List<Long> rank_tasks(){
+	public void set(Task a, Task b, double val){
+		int i = task_ids.indexOf(a);
+		int j = task_ids.indexOf(b);
+		if(i == -1) throw new Error("Task "+ a +" could not be found in this UM.");
+		if(j == -1) throw new Error("Task "+ b +" could not be found in this UM.");
+		
+		set(i, j, val);
+	}
+	
+	public List<Integer> rank_tasks(List<Integer> task_ids){
 		double alpha = 1.0/n;
 		int num_iter = 100;
 		Matrix x = new Matrix(n, 1, 1.0/n);
@@ -55,31 +72,31 @@ public class UrgencyMatrix {
 			x.print(n, 1);
 		}
 		
-		Map<Long, Double> map = new TreeMap<>();
+		Map<Integer, Double> map = new TreeMap<>();
 		
 		for(int i = 0; i < n; i++)
-			map.put(tasks[i], x.get(i, 0));
+			map.put(task_ids.get(i), x.get(i, 0));
 		
 		Ordering.natural().onResultOf(Functions.forMap(map));
 		
-		return new ArrayList<>(map.keySet());
+		return new ArrayList<Integer>(map.keySet());
 	}
 	
-	public static void main(String[] args){
-		UrgencyMatrix m = new UrgencyMatrix(3, new Long[]{0L, 1L, 2L});
-		/**
-		 * task 0: clean the car
-		 * task 1: feed the dog
-		 * task 2: perform surgery
-		 * 
-		 * t1 is 2 times more important than t0
-		 * t2 is 10 times more important than t0
-		 * t2 is 7 times more important than t1
-		 * */
-		
-		m.set(1, 0, 2);
-		m.set(2, 0, 10);
-		m.set(2, 1, 7);
-		m.rank_tasks();
-	}
+//	public static void main(String[] args){
+//		UrgencyMatrix m = new UrgencyMatrix(3, new Long[]{0L, 1L, 2L});
+//		/**
+//		 * task 0: clean the car
+//		 * task 1: feed the dog
+//		 * task 2: perform surgery
+//		 * 
+//		 * t1 is 2 times more important than t0
+//		 * t2 is 10 times more important than t0
+//		 * t2 is 7 times more important than t1
+//		 * */
+//		
+//		m.set(1, 0, 2);
+//		m.set(2, 0, 10);
+//		m.set(2, 1, 7);
+//		m.rank_tasks();
+//	}
 }

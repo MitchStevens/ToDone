@@ -1,13 +1,33 @@
+//Based on the color scheme at https://color.adobe.com/Campfire-color-theme-2528696/edit/?copy=true
+#main{
+	-fx-background-color: #eeeeee;
+	-fx-padding: 20;
+}
+
 #title{
 	-fx-font-size: 40;
 	-fx-font-family: Arial, Helvetica, sans-serif;
+	-fx-fill: #588C7E;
 }
 
 #message{
 	-fx-font-size: 20;
 	-fx-font-family: Arial, Helvetica, sans-serif;
+	-fx-fill: #588C7E;
 }
 
 .button{
-	-fx-background-color: #00ff00;
+	-fx-background-color: #D96459;
+	-fx-text-alignment: center;
+	-fx-border-style: solid;
+	-fx-border-color: white;
+	-fx-border-insets: 2;
+}
+
+.button:hover {
+    -fx-background-color: #F2B470;
+}
+
+.button:pressed{
+	-fx-background-color: #F2E394;
 }

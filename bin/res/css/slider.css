@@ -1,5 +1,5 @@
 #slider{
-	-fx-background-color: #cccccc;
+	//-fx-background-color: #cccccc;
 }
 
 #upper_piece{
@@ -8,6 +8,11 @@
 
 #lower_piece{
 	-fx-fill: linear-gradient(#f2e394, #588C7E);
+}
+
+#subtitle{
+	-fx-font-size: 15;
+	-fx-fill: #000000;
 }
 
 #marker{

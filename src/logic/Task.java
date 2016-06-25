@@ -1,28 +1,54 @@
 package logic;
 
-import java.util.Date;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class Task {
-	long id;
 	String name;
-	Date created;
-	Date due;
+	LocalDateTime due;
 	
-	public Task(long  id, String name, long created, long  due){
-		this.id = id;
+	/** 
+	 * due must be of form "yyyy-mm-ddThh:mm:ss.mmmm"
+	 *  */
+	public Task(String name, String due){
 		this.name = name;
-		this.created = new Date(created);
-		this.due = new Date(due);
+		this.due = LocalDateTime.parse(due);
 	}
 	
-	public Task(long  id, String name){
-		this.id = id;
+	public Task(String name){
 		this.name = name;
-		this.created = null;
 		this.due = null;
 	}
 	
 	public String get_name(){
 		return name;
+	}
+	
+	public String due_string(){
+		if(due == null)
+			return "???";
+		else
+			return due.format(DateTimeFormatter.ofPattern("dd/MM"));
+	}
+	
+	@Override
+	public int hashCode(){
+		int hash = 1;
+		hash += due.hashCode();
+		return hash;
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		if(!(o instanceof Task))
+			return false;
+		Task t = (Task)o;
+		if(!name.equals(t.name)) return false;
+		if(!due.equals(t.due)) return false;
+
+		return true;
 	}
 }

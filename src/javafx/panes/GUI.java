@@ -1,49 +1,62 @@
 package javafx.panes;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
+import io.Data;
 import io.Reader;
-import datatypes.Direction;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.controls.Slider;
-import javafx.geometry.Insets;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import logic.Task;
+import logic.UrgencyMatrix;
 
 public class GUI extends Application{
-	private enum Device {PC, ANDROID};
-	public Device device = Device.PC;
+	public enum Device {
+		PC			(768, 1024),
+		IPAD2		(1024, 768),
+		IPAD3		(2048, 1536),
+		IPHONE3		(480, 320),
+		IPHONE4		(960, 640),
+		WINPHONE	(800, 480),
+		GALAXYTAB7	(1024, 600),
+		IPHONE5		(1136, 640);
+		
+		int res_h, res_w;
+		Device(int res_h, int res_w){
+			this.res_w = res_w;
+			this.res_h = res_h;
+		}
+	};
 	
-	public static double screen_width, screen_height;
+	public static Device device = Device.PC;
+	
+	public final static double WIDTH, HEIGHT;
 	
 	Group root;
 	Scene scene;
 	
-	{
-		switch(device){
-		case PC:
-			screen_width = 1024;
-			screen_height = 768;
-		case ANDROID:
-			//somthing else
-		}
+	static {
+		WIDTH  = device.res_w;
+		HEIGHT = device.res_h;
 	}
+	
+	UrgencyMatrix um;
 	
 	@Override
 	public void start(Stage ps) throws Exception {		
 		Reader.read_all();
 		ps.setTitle("ToDone");
 		root = new Group();
-		scene = new Scene(root, screen_width, screen_height);
+		scene = new Scene(root, WIDTH, HEIGHT);
 		ComparisonPane p = new ComparisonPane();
 		root.getChildren().add(p);
 		
-		Task t1 = new Task(0, "Lift Heavy Shit");
-		Task t2 = new Task(1, "Cardio");
+		Task t1 = new Task("body disposal");
+		Task t2 = new Task("clean blood");
 		p.new_comparison(t1, t2);
 		
 		ps.setScene(scene);
