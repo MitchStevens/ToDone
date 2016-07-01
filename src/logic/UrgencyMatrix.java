@@ -123,4 +123,14 @@ public class UrgencyMatrix {
 		UrgencyMatrix m = new UrgencyMatrix("name", U);
 		m.rank_tasks(null);
 	}
+
+	/**
+	 * Additional getters
+	 */
+
+	public String get_name(){return name;}
+
+	public int get_size(){return n;}
+
+	public double[][] get_U(){return U;}
 }
