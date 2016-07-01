@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import Jama.Matrix;
+import org.la4j.LinearAlgebra;
+import org.la4j.Matrix;
+import org.la4j.Vector;
 
 import com.google.common.base.Functions;
 import com.google.common.collect.Maps;
@@ -22,19 +24,23 @@ public class UrgencyMatrix {
 	private int n;
 	
 	// Urgency Matrix
-	private Matrix U;
+	private double[][] U;
 	
 	private List<Integer> task_ids;
 	
 	public UrgencyMatrix(int n){
 		this.n = n;
-		this.U = new Matrix(n, n, 1.0);
+		this.U = new double[n][n];
+		
+		for(int i = 0; i < n; i++)
+			for(int j = 0; j < n ; j++)
+				U[i][j] = 1.0;
 	}
 	
-	public UrgencyMatrix(String name, int n, double[][] U){
+	public UrgencyMatrix(String name, double[][] U){
 		this.name = name;
-		this.n = n;
-		this.U = new Matrix(U);
+		this.n = U.length;
+		this.U = U;
 	}
 	
 	/**
@@ -47,8 +53,8 @@ public class UrgencyMatrix {
 	public void set(int i, int j, double val){
 		if(i>=0 && i<n &&
 		   j>=0 && j<n && val > 0){
-			U.set(i, j, val);
-			U.set(j, i, 1/val);
+			U[i][j] = val;
+			U[j][i] = 1.0/val;
 		}
 	}
 	
@@ -62,41 +68,59 @@ public class UrgencyMatrix {
 	}
 	
 	public List<Integer> rank_tasks(List<Integer> task_ids){
-		double alpha = 1.0/n;
-		int num_iter = 100;
-		Matrix x = new Matrix(n, 1, 1.0/n);
-		Matrix M = Matrix.identity(n, n).times(1 - n*alpha).plus(U.times(alpha));
-		while(num_iter-- > 0){
-			x = M.times(x);
-			x = x.times(1/x.norm2());
-			x.print(n, 1);
-		}
+		Matrix A = A();
+		Vector b = Vector.zero(n+1);
+		b.set(n, -1);
 		
-		Map<Integer, Double> map = new TreeMap<>();
-		
-		for(int i = 0; i < n; i++)
-			map.put(task_ids.get(i), x.get(i, 0));
-		
-		Ordering.natural().onResultOf(Functions.forMap(map));
-		
-		return new ArrayList<Integer>(map.keySet());
+		Vector x = A.withSolver(LinearAlgebra.GAUSSIAN).solve(b);
+		System.out.println(x);
+		return null;
 	}
 	
-//	public static void main(String[] args){
-//		UrgencyMatrix m = new UrgencyMatrix(3, new Long[]{0L, 1L, 2L});
-//		/**
-//		 * task 0: clean the car
-//		 * task 1: feed the dog
-//		 * task 2: perform surgery
-//		 * 
-//		 * t1 is 2 times more important than t0
-//		 * t2 is 10 times more important than t0
-//		 * t2 is 7 times more important than t1
-//		 * */
-//		
-//		m.set(1, 0, 2);
-//		m.set(2, 0, 10);
-//		m.set(2, 1, 7);
-//		m.rank_tasks();
-//	}
+	/**
+	 * Calculates a matrix of values to be used in the rank tasks methods.
+	 * Read task_ordering.tex for more info.
+	 * */
+	private Matrix A(){
+		Matrix A = Matrix.zero(n+1, n+1);
+		
+		for(int i = 0; i < n; i++)
+			for(int j = 0; j < n; j++){
+				A.set(i, j, -2*(U[i][j] + U[j][i]));
+			}
+		
+		for(int j = 0; j < n; j++){
+			double temp = A.get(j, j);
+			for(int l = 0; l < n; l++)
+				temp += 2*U[l][j]*U[l][j];
+			temp += n;
+			A.set(j, j, temp);
+		}
+		
+		for(int k = 0; k < n; k++){
+			A.set(k, n, -1.0);
+			A.set(n, k, -1.0);
+		}
+		
+		return A;
+	}
+	
+	public static void main(String[] args){
+		/**
+		 * task 0: clean the car
+		 * task 1: feed the dog
+		 * task 2: perform surgery
+		 * 
+		 * t1 is 2 times more important than t0
+		 * t2 is 10 times more important than t0
+		 * t2 is 7 times more important than t1
+		 * */
+		double[][] U = new double[][]{
+			{1,	 0.5, 0.1},
+			{2,	 1,	  0.142},
+			{10, 7,	  1}
+		};
+		UrgencyMatrix m = new UrgencyMatrix("name", U);
+		m.rank_tasks(null);
+	}
 }

@@ -1,0 +1,188 @@
+\documentclass{article}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\title{How task ordering works}
+\author{Mitch Stevens}
+
+\begin{document}
+\section{Problem}
+Given an $n \times n$ matrix $U$ of real numbers and a function $E:\mathbb{R}^n
+\to \mathbb{R}$ defined by $E(x) = \sum_{i, j} ( U_{ij}x_j - x_i )^2$, find an
+$x\in \mathbb{R}^n$ that minimises $E$.
+
+\section{Solution}
+Using the gradient descent method, given some $x_n \in \mathbb{R}^n$, we can
+calculate $x_{n+1} = x_n + \alpha \nabla E(x_n)$ such that $E(x_{n+1}) >E(x_n)$.
+
+\subsection{Calculating $\nabla E$}
+Since $\nabla E = \{\frac{\partial E}{\partial x_n}\}$, finding an effecient
+compuatation for $\nabla E$ is reduced to finding a general form for
+$\frac{\partial E}{\partial x_k}$.
+
+\begin{align*}
+\frac{\partial E}{\partial x_k} &= \sum_{i,j} \frac{\partial ( U_{ij}x_j - x_i
+)^2}{\partial x_k} \\
+&= \sum_{i,j} \frac{\partial ( U_{ij}x_j - x_i)^2}{\partial (U_{ij}x_j - x_i)}
+\frac{\partial (U_{ij}x_j - x_i)}{\partial x_k} \\
+&= \sum_{i,j} 2(U_{ij}x_j - x_i) (U_{ij} \frac{\partial x_j}{\partial x_k} -
+\frac{\partial x_i}{\partial x_k}) \\
+&= \sum_{i,j} 2(U_{ij}x_j - x_i)(U_{ij}\delta_{jk} - \delta_{ik}) \\
+&= \sum_{i,j} 2e_{ij} (U_{ij}\delta_{jk} - \delta_{ik}) \\
+&= \sum_{i,j} 2e_{ij} U_{ij}\delta_{jk} - \sum_{i,j} 2e_{ij}\delta_{ik}) \\
+&= \sum_i 2e_{ik} U_{ik} - \sum_j 2e_{kj} \\
+&= \sum_i 2(U_{ik}x_k - x_i) U_{ik} - \sum_i 2(U_{ki}x_i - x_k) \\
+&= x_k \sum_i (2U_{ik}^2 + 1) -\sum_i x_i(2(U_{ik} +U_{ki})) \\
+&= x_k (\sum_l 2U_{lj}^2 + n) -\sum_i x_i(2(U_{ik} +U_{ki}))
+\end{align*}
+
+So we find that $\nabla E$ is actually a linear equation. So we can represent it
+as a matrix operation
+
+$$ \nabla E(x) = Mx $$
+where $M_{ij} = \delta_{ij}(\sum_l 2U_{lj}^2 + n) -(2(U_{ij} +U_{ji}))$
+
+\subsection{Using Lagrange multiplyer}
+We start by adding another constraint, that $\sum x = 1$. We express this
+constraint as a function $g(x) = \sum x -1$ and say that $g(x) = 0$. Now we
+define an auxilary function $\mathcal{L}(x, \lambda) = E(x) - \lambda
+g(x)$. Note that $\nabla \mathcal{L} = 0 \Leftrightarrow
+\begin{cases} 
+\nabla E = - \lambda \nabla g \\
+g(x) = 0
+\end{cases}$. To solve 
+
+
+\begin{align*}
+\nabla \mathcal{L}(x, \lambda) &= [\frac{\partial \mathcal{L}}{\partial z}]_{z
+\in x \cup \lambda} \\
+&=
+\begin{bmatrix}
+	\frac{\partial (E - \lambda g)}{\partial x_1} \\
+	\vdots \\
+	\frac{\partial (E - \lambda g)}{\partial x_n} \\
+	\frac{\partial (E - \lambda g)}{\partial \lambda}
+\end{bmatrix} \\
+&=
+\begin{bmatrix}
+	\frac{\partial E}{\partial x_1} \\
+	\vdots \\
+	\frac{\partial E}{\partial x_n} \\
+	\frac{\partial E}{\partial \lambda}
+\end{bmatrix} -
+\begin{bmatrix}
+	\frac{\partial \lambda g}{\partial x_1} \\
+	\vdots \\
+	\frac{\partial \lambda g}{\partial x_n} \\
+	\frac{\partial \lambda g}{\partial \lambda}
+\end{bmatrix} \\
+&=
+\begin{bmatrix}
+	\frac{\partial E}{\partial x_1} \\
+	\vdots \\
+	\frac{\partial E}{\partial x_n} \\
+	0
+\end{bmatrix} - 
+\begin{bmatrix}
+	\lambda \\
+	\vdots \\
+	\lambda \\
+	g(x)
+\end{bmatrix} \\
+&=
+\begin{bmatrix}
+	\frac{\partial E}{\partial x_1} \\
+	\vdots \\
+	\frac{\partial E}{\partial x_n} \\
+	0
+\end{bmatrix} - 
+\begin{bmatrix}
+	\lambda \\
+	\vdots \\
+	\lambda \\
+	\sum x
+\end{bmatrix} + 
+\begin{bmatrix}
+	0 \\
+	0 \\
+	0 \\
+	1
+\end{bmatrix}\\
+&=
+\begin{bmatrix}
+	M_{11} & \dots  & M_{1n} & 0 \\
+	\vdots & \ddots & \vdots & 0 \\
+	M_{n1} & \dots  & M_{nn} & 0 \\
+	0      & \dots  & 0		 & 0
+\end{bmatrix}
+\begin{bmatrix}
+	x_1 \\ \vdots \\ x_n \\ \lambda
+\end{bmatrix} - 
+\begin{bmatrix}
+	0 	   & \dots  & 0 	 & 1 \\
+	\vdots & \ddots & \vdots & \vdots \\
+	0	   & \dots  & 0 	 & 1 \\
+	1      & \dots  & 1		 & 0
+\end{bmatrix}
+\begin{bmatrix}
+	x_1 \\
+	\vdots \\
+	x_n\\
+	\lambda
+\end{bmatrix} +
+\begin{bmatrix}
+	0 \\
+	0 \\
+	0 \\
+	1
+\end{bmatrix} \\
+\begin{bmatrix}
+	0 \\
+	0 \\
+	0 \\
+	0
+\end{bmatrix}
+&=
+\begin{bmatrix}
+	M_{11} & \dots  & M_{1n} & -1 \\
+	\vdots & \ddots & \vdots & \vdots \\
+	M_{n1} & \dots  & M_{nn} & -1 \\
+	-1     & \dots  & -1	 & 0
+\end{bmatrix}
+\begin{bmatrix}
+	x_1 \\ \vdots \\ x_n \\ \lambda
+\end{bmatrix} +
+\begin{bmatrix}
+	0 \\
+	0 \\
+	0 \\
+	1
+\end{bmatrix} \\
+\begin{bmatrix}
+	0 \\
+	0 \\
+	0 \\
+	-1
+\end{bmatrix}
+&=
+\begin{bmatrix}
+	M_{11} & \dots  & M_{1n} & -1 \\
+	\vdots & \ddots & \vdots & \vdots \\
+	M_{n1} & \dots  & M_{nn} & -1 \\
+	-1     & \dots  & -1	 & 0
+\end{bmatrix}
+\begin{bmatrix}
+	x_1 \\ \vdots \\ x_n \\ \lambda
+\end{bmatrix}
+\end{align*}
+
+Thus we have reduced the problem to solving an $(n+1) \times (n+1)$ matrix
+
+\end{document}	
+
+
+
+
+
+
+
+

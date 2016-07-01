@@ -51,16 +51,28 @@ public class GUI extends Application{
 		Reader.read_all();
 		ps.setTitle("ToDone");
 		root = new Group();
-		scene = new Scene(root, WIDTH, HEIGHT);
+		scene = new Scene(root, WIDTH, HEIGHT);		
+		ps.setScene(scene);
+		ps.show();
+		
+		task_view_pane_test();
+	}
+	
+	private void comp_pane_test(){
 		ComparisonPane p = new ComparisonPane();
 		root.getChildren().add(p);
 		
 		Task t1 = new Task("body disposal");
 		Task t2 = new Task("clean blood");
 		p.new_comparison(t1, t2);
+	}
+	
+	private void task_view_pane_test(){
+		TaskViewPane p = new TaskViewPane();
+		root.getChildren().add(p);
 		
-		ps.setScene(scene);
-		ps.show();
+		TaskViewPane.add(0);
+		TaskViewPane.add(3);
 	}
 	
 	private void window_resize_listener() {
