@@ -7,7 +7,6 @@ import logic.Task;
 import logic.UrgencyMatrix;
 
 public class Data {
-	//LACHLAN IS COOL(lachlan is a homo)
 	public  static Map<Integer, UrgencyMatrix> ALL_MATRICES = new HashMap<>();
 	public  static Map<Integer, Task>		   ALL_TASKS	= new HashMap<>();
 	
