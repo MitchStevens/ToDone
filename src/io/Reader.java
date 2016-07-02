@@ -1,5 +1,6 @@
 package io;
 
+import javafx.scene.text.Font;
 import logic.Task;
 import logic.UrgencyMatrix;
 import org.json.JSONArray;
@@ -39,7 +40,12 @@ public class Reader {
 	 * }
 	 *
 	 */
-	private static JSONObject FILE = null;
+	private static JSONObject MATRICES_JSON = null;
+	private static JSONObject TASKS_JSON = null;
+
+	private static final String JSON_FILE_LOC = System.getProperty("user.dir")+"/src/res/json";
+
+	private static final File FONT_FILE_DIR = new File(System.getProperty("user.dir")+"/src/res/font");
 
 	/**
 	 * Loads all the tasks and matrices from file
@@ -47,22 +53,20 @@ public class Reader {
 	public static void load_all(){
 		load_tasks();
 		load_matrices();
+		load_fonts();
 	}
 
 	/**
 	 * Loads all the tasks from file
 	 */
 	public static void load_tasks(){
-		HashMap<Integer, Task> all_tasks = new HashMap<>();
-
-		JSONArray tasks = FILE.getJSONArray("tasks");
+		if (TASKS_JSON == null) read_in_data();
+		JSONArray tasks = TASKS_JSON.getJSONArray("tasks");
 		for (int i = 0; i < tasks.length(); i++){
 			JSONObject o = tasks.getJSONObject(i);
 			Task t = new Task(o.getString("name"), o.getString("due"));
-			all_tasks.put(i, t);
+			Data.ALL_TASKS.put(i, t);
 		}
-
-		Data.ALL_TASKS = all_tasks;
 
 	}
 
@@ -72,16 +76,21 @@ public class Reader {
 	 * Not sure if it'll read from file, but the JSON to UM part works
 	 */
 	public static void load_matrices(){
-		HashMap<Integer, UrgencyMatrix> all_matrices = new HashMap<>();
+		if (MATRICES_JSON == null) read_in_data();
 
-		JSONArray matrices = FILE.getJSONArray("matrices");
+		JSONArray matrices = MATRICES_JSON.getJSONArray("matrices");
 		for (int i = 0; i < matrices.length(); i++){
 			JSONObject o = matrices.getJSONObject(i);
 			UrgencyMatrix um = new UrgencyMatrix(o.getString("name"), get_relative_urgencies_from_JSON(o.getJSONArray("relative_urgencies")));
-			all_matrices.put(i, um);
+			Data.ALL_MATRICES.put(i, um);
 		}
+	}
 
-		Data.ALL_MATRICES = all_matrices;
+	public static void load_fonts(){
+		for (File file : FONT_FILE_DIR.listFiles()){
+			Font f = Font.loadFont(file.getPath(), 0);
+			Data.ALL_FONTS.put(f.getName(), f);
+		}
 	}
 
 	/**
@@ -124,6 +133,19 @@ public class Reader {
 		} finally {
 			br.close();
 		}
+	}
+
+	/**
+	 * Reads the json information from file
+	 */
+	private static void read_in_data(){
+		try {
+			File md = new File(JSON_FILE_LOC +File.separator+"matrices.json");
+			MATRICES_JSON = new JSONObject(readFile(md));
+
+			File td = new File(JSON_FILE_LOC +File.separator+"tasks.json");
+			TASKS_JSON = new JSONObject(readFile(td));
+		} catch (IOException e){e.printStackTrace();}
 	}
 
 }
