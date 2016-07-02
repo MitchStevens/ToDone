@@ -48,7 +48,6 @@ public class GUI extends Application{
 	
 	@Override
 	public void start(Stage ps) throws Exception {		
-		Reader.read_all();
 		ps.setTitle("ToDone");
 		root = new Group();
 		scene = new Scene(root, WIDTH, HEIGHT);		
@@ -72,7 +71,7 @@ public class GUI extends Application{
 		root.getChildren().add(p);
 		
 		TaskViewPane.add(0);
-		TaskViewPane.add(3);
+		TaskViewPane.add(2);
 	}
 	
 	private void window_resize_listener() {

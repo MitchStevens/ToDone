@@ -2,7 +2,7 @@
 	"matrices":
 	[
 		{
-			"name":"adj2"
+			"name":"adj2",
 			"size":3,
 			"tasks": [0, 1, 2],
 			"relative_urgencies":

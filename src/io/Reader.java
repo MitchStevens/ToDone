@@ -53,7 +53,8 @@ public class Reader {
 	public static void load_all(){
 		load_tasks();
 		load_matrices();
-		load_fonts();
+		//This method not working
+		//load_fonts();
 	}
 
 	/**

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Volumes/Data/Code/workspace/ToDone/jars/guava-19.0.jar"/>
-	<classpathentry kind="lib" path="C:/Volumes/Data/Code/workspace/ToDone/jars/json-20160212.jar"/>
-	<classpathentry kind="lib" path="C:/Volumes/Data/Code/workspace/ToDone/jars/la4j-0.5.5.jar"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Mitch/git/ToDone/jars/guava-19.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Mitch/git/ToDone/jars/json-20160212.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Mitch/git/ToDone/jars/la4j-0.5.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
