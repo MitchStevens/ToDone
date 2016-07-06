@@ -2,23 +2,23 @@
 	"tasks":[
 		{
 			"id":0,
-			"name":"walk the dog",
+			"name":"Walk the dog",
 			"due":"2016-07-13T00:00:00"	
 		},{
 			"id":1,
-			"name":"perform heart surgery",
+			"name":"Perform heart surgery",
 			"due":"2016-10-21T00:00:00"
 		},{
 			"id":2,
-			"name":"lift heavy shit",
+			"name":"Lift heavy shit",
 			"due":"2016-11-03T00:00:00"
 		},{
 			"id":3,
-			"name":"cardio",
+			"name":"Cardio",
 			"due":"2016-11-04T00:00:00"
 		},{
 			"id":4,
-			"name":"job interview",
+			"name":"Job interview",
 			"due":"2016-11-30T00:00:00"
 		}	
 	]

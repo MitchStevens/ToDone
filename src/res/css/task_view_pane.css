@@ -1,9 +1,11 @@
-@font-face {
-    src: url('../../res/font/fontawesome.ttf');
+#main{
+	-fx-background-color: #EEE;
+	-fx-hpos: center;
 }
 
-.root{
-	-fx-background-color: #444444;
+#root{
+	-fx-background-color: #BBB;
+	-fx-hpos: center;
 }
 
 #icon_button{
@@ -15,9 +17,16 @@
 	
 }
 
-#task_housing{
-	-fx-background-color: grey;
+.task_box{
 	-fx-font-size: 30;
+}
+
+.task_box:hover{
+	-fx-effect: innershadow(gaussian, white, 64, 0, 0, 0);
+}
+
+.task_box:highlighted{
+	-fx-background-color: blue;
 }
 
 #rank_text{

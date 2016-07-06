@@ -10,6 +10,7 @@ import io.Reader;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import logic.Task;
 import logic.UrgencyMatrix;
@@ -31,6 +32,12 @@ public class GUI extends Application{
 			this.res_h = res_h;
 		}
 	};
+	
+	public static Color MAROON 	= Color.web("#8C4646");
+	public static Color RED 	= Color.web("#D96459");
+	public static Color ORANGE 	= Color.web("#F2AE72");
+	public static Color YELLOW 	= Color.web("#F2E394");
+	public static Color GREEN 	= Color.web("#588C7E");
 	
 	public static Device device = Device.PC;
 	
@@ -71,7 +78,10 @@ public class GUI extends Application{
 		root.getChildren().add(p);
 		
 		TaskViewPane.add(0);
+		TaskViewPane.add(1);
 		TaskViewPane.add(2);
+		TaskViewPane.add(3);
+		TaskViewPane.add(4);
 	}
 	
 	private void window_resize_listener() {

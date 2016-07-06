@@ -13,6 +13,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
+import javafx.panes.GUI;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -38,9 +39,9 @@ public class LogSlider extends Pane{
 	final private static double PERCENTAGE = 2.0/3.0;
 	final public  static double MAX_VALUE = 8;
 	
-	final private static Color MAX_COLOR = Color.web("#d96459");
-	final private static Color ONE_COLOR = Color.web("#f2e394");
-	final private static Color MIN_COLOR = Color.web("#588c7e");
+	final private static Color MAX_COLOR = GUI.RED;
+	final private static Color ONE_COLOR = GUI.YELLOW;
+	final private static Color MIN_COLOR = GUI.GREEN;
 	
 	private double x_off, y_off;
 	
