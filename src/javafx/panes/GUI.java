@@ -10,6 +10,8 @@ import io.Reader;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import logic.Task;
@@ -57,11 +59,27 @@ public class GUI extends Application{
 	public void start(Stage ps) throws Exception {		
 		ps.setTitle("ToDone");
 		root = new Group();
-		scene = new Scene(root, WIDTH, HEIGHT);		
+		scene = new Scene(root, WIDTH, HEIGHT);
 		ps.setScene(scene);
 		ps.show();
 		
 		task_view_pane_test();
+	}
+	
+	private void scroll_pane_text(){
+		ScrollPane p = new ScrollPane();
+		root.getChildren().add(p);
+		
+		TextArea area = new TextArea();
+		p.setContent(area);
+		
+		int n = 100;
+		String s = "0 precedes ";
+		for(int i = 0; i < n; i++)
+			s += i +" which precedes ";
+		s += (n+1) +".";
+		
+		area.setText(s);
 	}
 	
 	private void comp_pane_test(){
@@ -73,15 +91,23 @@ public class GUI extends Application{
 		p.new_comparison(t1, t2);
 	}
 	
+	private void task_box_test(){
+		TaskBox p = new TaskBox(0, 0);
+		root.getChildren().add(p);
+	}
+	
 	private void task_view_pane_test(){
 		TaskViewPane p = new TaskViewPane();
 		root.getChildren().add(p);
-		
-		TaskViewPane.add(0);
-		TaskViewPane.add(1);
-		TaskViewPane.add(2);
-		TaskViewPane.add(3);
-		TaskViewPane.add(4);
+
+		int n = Data.ALL_TASKS.size();
+		for(int i = 0; i < n; i++)
+			TaskViewPane.add(i);
+	}
+	
+	private void task_creation_pane_test(){
+		TaskCreatePane p = new TaskCreatePane();
+		root.getChildren().add(p);
 	}
 	
 	private void window_resize_listener() {

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
+
+<GridPane id="root" hgap="2.0" stylesheets="@../css/task_creation_pane.css" vgap="5.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" />
+      <ColumnConstraints hgrow="SOMETIMES" />
+      <ColumnConstraints hgrow="SOMETIMES" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+   </rowConstraints>
+   <children>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label" text="Name:" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="TOP">
+         <GridPane.margin>
+            <Insets top="3.0" />
+         </GridPane.margin>
+      </Text>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label" text="Due:" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+         <GridPane.margin>
+            <Insets top="5.0" />
+         </GridPane.margin>
+      </Text>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label" text="Info:" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="TOP">
+         <GridPane.margin>
+            <Insets top="3.0" />
+         </GridPane.margin>
+      </Text>
+      <TextField id="name_textfield" promptText="eg. Rid Spirits" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <TextArea prefHeight="127.0" prefWidth="200.0" promptText="Look up contact info, what was that number again?" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <Text id="title" strokeType="OUTSIDE" strokeWidth="0.0" text="Task Creation" GridPane.columnSpan="3">
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin>
+      </Text>
+      <Button id="cancel_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Cancel" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <Button id="save_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Save" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      <DatePicker id="due_datepicker" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <Text id="confirm_name" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="confirm" text="OK" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+      <Text id="confirm_due" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="confirm" text="OK" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+   </children>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</GridPane>

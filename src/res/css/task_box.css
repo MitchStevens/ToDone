@@ -1,0 +1,33 @@
+@font-face {
+    font-family: 'fontawesome';
+    src: url('../../res/font/fontawesome.ttf');
+}
+
+.taskbox_text{
+	-fx-font-face: "Arial";
+	-fx-font-size: 20;
+}
+
+.taskbox_button{
+	-fx-font-family: "fontawesome";
+}
+
+.taskbox_button:hover{
+	-fx-fill: #555;
+}
+
+#edit_button{
+	-fx-font-size: 30;
+}
+
+#delete_button{
+	-fx-font-size: 30;
+}
+
+#up_button{
+	-fx-font-size: 18;
+}
+
+#down_button{
+	-fx-font-size: 18;
+}

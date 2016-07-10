@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Task {
 	String name;
+	String info;
 	LocalDateTime due;
 	
 	/** 

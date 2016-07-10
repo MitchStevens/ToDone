@@ -1,0 +1,29 @@
+@font-face {
+    font-family: 'fontawesome';
+    src: url('../../res/font/fontawesome.ttf');
+}
+
+#root{
+	-fx-background-color: #BBB;
+}
+
+#title{
+	-fx-font-size: 24;
+}
+
+.button{
+	-fx-background-color: #D96459;
+	-fx-text-alignment: center;
+	-fx-border-style: solid;
+	-fx-border-color: white;
+	-fx-border-insets: 2;
+}
+
+.confirm{
+	-fx-font-family: "fontawesome";
+	-fx-fill: #D96459;
+}
+
+.confirm:pos{
+	-fx-fill: #588C7E;
+}

@@ -1,0 +1,48 @@
+#main{
+	-fx-background-color: #EEE;
+}
+
+#root{
+	-fx-background-color: #BBB;
+}
+
+.navigation_button{
+   	-fx-background-color: #D96459;
+	-fx-text-alignment: center;
+	-fx-border-style: solid;
+	-fx-border-color: white;
+	-fx-border-insets: 2;
+}
+
+/* TASKBOX CSS 
+
+.taskbox_text{
+	-fx-font-face: "Arial";
+	-fx-font-size: 30;
+}
+
+.taskbox_button{
+	-fx-font-family: "fontawesome";
+}
+
+.taskbox_button:hover{
+	-fx-fill: #555;
+}
+
+#edit_button{
+	-fx-font-size: 30;
+}
+
+#delete_button{
+	-fx-font-size: 30;
+}
+
+#up_button{
+	-fx-font-size: 18;
+}
+
+#down_button{
+	-fx-font-size: 18;
+}
+
+*/
