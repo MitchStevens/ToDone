@@ -62,8 +62,17 @@ public class GUI extends Application{
 		scene = new Scene(root, WIDTH, HEIGHT);
 		ps.setScene(scene);
 		ps.show();
-		
+
 		task_view_pane_test();
+		show_splash_screen();
+		
+
+	}
+
+	private void show_splash_screen(){
+		SplashTitlePane p = new SplashTitlePane(WIDTH, HEIGHT);
+		root.getChildren().add(p);
+		p.run();
 	}
 	
 	private void scroll_pane_text(){
