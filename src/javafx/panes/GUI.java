@@ -63,7 +63,7 @@ public class GUI extends Application{
 		ps.setScene(scene);
 		ps.show();
 
-		task_view_pane_test();
+		task_view_pane_test(1);
 		show_splash_screen();
 		
 

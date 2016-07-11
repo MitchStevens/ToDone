@@ -1,0 +1,16 @@
+@font-face {
+    src: url('../../res/font/fontawesome.ttf');
+}
+
+#edit_root{
+	-fx-background-color: #ccc;
+}
+
+.confirm_text{
+	-fx-font-family: "fontawesome";
+	-fx-fill: #D96459;
+}
+
+.confirm_text:pos{
+	-fx-fill: #588C7E;
+}

@@ -1,5 +1,5 @@
 #slider{
-	//-fx-background-color: #cccccc;
+	/* -fx-background-color: #cccccc; */
 }
 
 #upper_piece{
@@ -12,7 +12,7 @@
 
 #subtitle{
 	-fx-font-size: 15;
-	-fx-fill: #000000;
+	-fx-fill: #000000;/* */
 }
 
 #marker{
